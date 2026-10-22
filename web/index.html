@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>260 Brands Copilot Playbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a small multi-view playbook — Home (shared story), Organisation, Department pages, and Personal pages with sub-tabs. Each view has its own link. */
+:root{
+  --bg:#F5F6F8; --surface:#FFFFFF; --sunk:#ECEEF2; --line:#DCE0E6;
+  --fg:#1A1D23; --muted:#5A6170;
+  --accent:#D9661A; --accent-soft:#FCEBDD; --accent-ink:#8F3E08;
+  --ms:#0F6CBD; --ms-soft:#E3EEF9;
+  --good:#1E7F4F; --good-soft:#DFF3E8;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Plus Jakarta Sans","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#111317; --surface:#1A1D23; --sunk:#22262E; --line:#2E333C;
+  --fg:#ECEEF1; --muted:#A2A9B6;
+  --accent:#F08A3C; --accent-soft:#3A2516; --accent-ink:#FFC28F;
+  --ms:#5AA9F2; --ms-soft:#16283B;
+  --good:#58C98C; --good-soft:#15291F; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#111317; --surface:#1A1D23; --sunk:#22262E; --line:#2E333C;
+  --fg:#ECEEF1; --muted:#A2A9B6;
+  --accent:#F08A3C; --accent-soft:#3A2516; --accent-ink:#FFC28F;
+  --ms:#5AA9F2; --ms-soft:#16283B;
+  --good:#58C98C; --good-soft:#15291F; color-scheme:dark }
+
+*{box-sizing:border-box}
+html{color-scheme:light}
+[hidden]{display:none!important}
+img{max-width:100%}
+:root{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main.wrap{padding-block:26px 64px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(28px,4.6vw,44px);font-weight:800;line-height:1.06}
+h2{font-size:clamp(21px,2.8vw,26px);font-weight:700}
+h3{font-size:16.5px;font-weight:700}
+p{margin:0}
+a{color:var(--ms)}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+.muted{color:var(--muted)}
+section{margin-top:44px}
+.sec-head{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;max-width:72ch}
+button{font:inherit}
+:focus-visible{outline:2px solid var(--ms);outline-offset:2px}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:14px;padding-block:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;background:none;border:0;padding:0;color:var(--fg)}
+.logo-slot{display:flex;align-items:center;justify-content:center;min-width:96px;height:38px;padding:4px 10px;border:1.5px dashed var(--line);border-radius:9px;background:var(--surface);font-size:11px;color:var(--muted);position:relative;cursor:pointer;text-align:center;line-height:1.2}
+.logo-slot.filled{border-style:solid;border-color:transparent;background:#fff}
+.logo-slot img{max-height:30px;max-width:130px;display:block}
+.logo-slot input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.nav button{border:0;background:none;color:var(--fg);font-weight:600;font-size:14px;padding:7px 12px;border-radius:9px;cursor:pointer}
+.nav button[aria-current="true"]{background:var(--accent-soft);color:var(--accent-ink)}
+
+/* view header */
+.crumbs{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.crumbs button{border:0;background:none;color:var(--ms);cursor:pointer;padding:0;font-weight:600;font-size:13px}
+.vh{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-top:10px}
+.vh .l{display:flex;flex-direction:column;gap:8px;max-width:70ch;min-width:0}
+.open-new{display:inline-flex;gap:6px;align-items:center;font-size:13px;font-weight:700;text-decoration:none;color:var(--ms);border:1px solid var(--line);background:var(--surface);padding:7px 12px;border-radius:9px;white-space:nowrap}
+.pill{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:var(--sunk);font-weight:600;font-size:12.5px}
+.meta{display:flex;gap:8px;flex-wrap:wrap}
+
+/* home */
+.hero{display:grid;grid-template-columns:1.4fr 1fr;gap:24px;align-items:end}
+.lead{font-size:17.5px;max-width:58ch}
+.facil{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:4px}
+.facil b{font-family:var(--display);font-size:18px}
+.stat-row{margin-top:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stat .n{font-family:var(--display);font-size:27px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.stat .l{font-size:13px;color:var(--muted)}
+.journey{overflow-x:auto;padding-bottom:6px}
+.journey ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(8,minmax(150px,1fr));min-width:1080px;counter-reset:j}
+.journey li{padding-right:10px;counter-increment:j}
+.journey .dot{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.journey .dot::before{content:counter(j);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:13px;flex:none}
+.journey .dot::after{content:"";height:2px;flex:1;background:var(--line)}
+.journey li:last-child .dot::after{display:none}
+.journey .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;min-height:146px;display:flex;flex-direction:column;gap:6px}
+.journey .card h3{font-size:15px}
+.journey .pain{font-size:13px;color:var(--muted)}
+.journey .who{font-size:12px;font-weight:600;color:var(--accent-ink);margin-top:auto}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.idea{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.idea .big{font-family:var(--display);font-size:19px;font-weight:700}
+.formula{margin-top:14px;background:var(--ms-soft);border-radius:14px;padding:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.formula div{display:flex;flex-direction:column;gap:4px}
+.formula b{font-family:var(--display);font-size:17px;color:var(--ms)}
+.formula span{font-size:13px}
+.formula .ex{grid-column:1/-1;font-family:var(--mono);font-size:13px;background:var(--surface);border-radius:10px;padding:12px;border:1px solid var(--line)}
+.agenda{display:grid;gap:8px}
+.act{display:grid;grid-template-columns:110px 1fr auto;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+.act .t{font-family:var(--mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.act b{font-family:var(--display);font-size:16px}
+.act p{font-size:13.5px;color:var(--muted)}
+.act .tag{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);white-space:nowrap}
+.act.brk{background:transparent;border-style:dashed}
+.rules{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:13.5px;display:flex;flex-direction:column;gap:4px}
+.rule b{font-family:var(--display);font-size:15px}
+
+/* directory tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.tile{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:6px;color:var(--fg)}
+.tile:hover{border-color:var(--accent)}
+.tile .nm{font-family:var(--display);font-weight:700;font-size:17px}
+.tile .rl{font-size:13px;color:var(--muted)}
+.tile .ct{font-size:12px;font-weight:700;color:var(--accent-ink);margin-top:auto}
+.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink);font-weight:800;font-family:var(--display);font-size:14px}
+.tile.org{background:var(--accent);border-color:var(--accent);color:#fff}
+.tile.org .rl,.tile.org .ct{color:#fff;opacity:.9}
+
+/* scenario cards */
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.sc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.sc.org{border:2px solid var(--accent)}
+.sc-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.badges{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.tool{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--ms-soft);color:var(--ms);white-space:nowrap}
+.lvl{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--sunk);color:var(--muted);white-space:nowrap}
+.lvl.Organisation{background:var(--accent);color:#fff}
+.lvl.Department{background:var(--accent-soft);color:var(--accent-ink)}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ba div{border-radius:10px;padding:10px;font-size:13.5px}
+.ba .before{background:var(--sunk)}
+.ba .after{background:var(--good-soft)}
+.ba b{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
+.ba .before b{color:var(--muted)}
+.ba .after b{color:var(--good)}
+.prompt{font-family:var(--mono);font-size:12.5px;background:var(--sunk);border-radius:10px;padding:12px;white-space:pre-wrap;word-break:break-word}
+.copy{font-size:12px;font-weight:700;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:5px 10px;cursor:pointer}
+.sc-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.tags{display:flex;gap:5px;flex-wrap:wrap}
+.tags button{font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);border:0;cursor:pointer}
+.saved{font-size:12.5px;color:var(--good);font-weight:700}
+.done{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer}
+.done input{accent-color:var(--good);width:16px;height:16px}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.flow span{background:var(--accent-soft);color:var(--accent-ink);font-weight:700;font-size:13px;padding:7px 11px;border-radius:9px}
+.flow i{font-style:normal;color:var(--muted)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.facts div{background:var(--sunk);border-radius:10px;padding:11px;font-size:13.5px}
+.facts b{display:block;font-family:var(--display);margin-bottom:3px}
+.group-h{display:flex;align-items:baseline;gap:10px;margin:26px 0 12px;flex-wrap:wrap}
+.group-h .muted{font-size:13px}
+
+/* person */
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-top:22px}
+.tabs button{border:0;background:none;padding:10px 14px;font-weight:700;font-size:14px;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px}
+.tabs button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+.ph{display:flex;gap:14px;align-items:center}
+.ph .avatar{width:56px;height:56px;font-size:20px}
+.friction{display:grid;gap:8px}
+.friction li{list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-weight:600}
+.friction{padding:0;margin:0}
+.start{background:var(--accent-soft);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.start b{font-family:var(--display);font-size:18px;color:var(--accent-ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.plist{display:grid;gap:10px}
+.prow{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:8px}
+.prow .hd{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.weeks{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.week{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.week .wk{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.week b{font-family:var(--display);font-size:15px}
+.week button{align-self:flex-start;border:0;background:none;color:var(--ms);font-weight:700;font-size:12.5px;padding:0;cursor:pointer}
+.commit{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.commit label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700}
+.commit select,.commit input{font:inherit;font-weight:500;font-size:14px;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
+.commit .out{grid-column:1/-1;font-family:var(--mono);font-size:13px;background:var(--sunk);border-radius:10px;padding:12px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.kv div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.kv .n{font-family:var(--display);font-size:24px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.kv .l{font-size:12.5px;color:var(--muted)}
+footer{margin-top:56px;padding-top:18px;padding-bottom:96px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* chat button */
+.chat-cta{display:inline-block;margin-top:8px;font-weight:700;font-size:12.5px;background:var(--accent);color:#fff;text-decoration:none;padding:6px 10px;border-radius:8px}
+
+/* fixed logos */
+.logo-chip{display:flex;align-items:center;height:46px;padding:3px 10px;background:#fff;border-radius:10px;border:1px solid var(--line)}
+.logo-chip img{display:block;height:auto;max-height:40px;width:auto}
+.x-sep{font-family:var(--display);font-size:18px;color:var(--muted)}
+@media (max-width:520px){.logo-chip{height:40px;padding:3px 8px}.logo-chip img{max-height:32px}}
+
+/* demo lab */
+.steps{margin:4px 0 0;padding-left:18px;display:grid;gap:3px}
+.next{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:12.5px}
+.nx{font-size:12px;font-weight:700;border:1px dashed var(--accent);background:transparent;color:var(--accent-ink);border-radius:8px;padding:4px 9px;cursor:pointer}
+.runrow{width:100%;text-align:left;color:var(--fg);cursor:pointer;font:inherit}
+.runrow:hover{border-color:var(--accent)}
+.tabs{overflow-x:auto;flex-wrap:nowrap}
+.tabs button{white-space:nowrap}
+
+/* 3D icons + mascot */
+.ico{width:44px;height:44px;flex:none;filter:drop-shadow(0 5px 6px rgba(20,24,40,.22))}
+.ico.sm{width:30px;height:30px;filter:drop-shadow(0 3px 4px rgba(20,24,40,.2))}
+.ico.lg{width:58px;height:58px}
+.ihead{display:flex;gap:12px;align-items:center;min-width:0}
+.mascot{display:block;width:120px;height:130px;flex:none}
+.hero-side{display:flex;flex-direction:column;align-items:center;gap:10px}
+.hero-side .mascot{width:150px;height:162px;animation:bob 3.4s ease-in-out infinite}
+.hero-side .facil{width:100%}
+.soya-card{display:flex;gap:18px;align-items:center;background:linear-gradient(120deg,var(--accent-soft),var(--ms-soft));border-radius:18px;padding:16px 20px;margin-top:36px}
+.soya-card .mascot{width:86px;height:93px;animation:bob 3.4s ease-in-out infinite}
+.soya-card b{font-family:var(--display);font-size:18px;display:block;margin-bottom:2px}
+.buddy{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:8;display:flex;align-items:flex-end;gap:8px;max-width:calc(100vw - 28px)}
+.buddy .bubble{max-width:250px;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:14px 14px 4px 14px;padding:10px 30px 10px 12px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.14);position:relative}
+.buddy .bubble b{display:block;font-family:var(--display);font-size:13.5px;color:var(--accent-ink)}
+.buddy .x{position:absolute;top:4px;right:6px;border:0;background:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1}
+.buddy .me{border:0;background:none;padding:0;cursor:pointer}
+.buddy .me .mascot{width:70px;height:76px;animation:bob 3.4s ease-in-out infinite}
+.buddy.min .bubble{display:none}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media (prefers-reduced-motion:reduce){.mascot{animation:none!important}}
+
+@media (max-width:860px){
+  .hero,.two{grid-template-columns:1fr}
+  .stat-row,.weeks{grid-template-columns:repeat(2,1fr)}
+  .three,.rules,.facts{grid-template-columns:1fr 1fr}
+  .cards{grid-template-columns:1fr}
+  .formula{grid-template-columns:1fr 1fr}
+  .nav{margin-left:0}
+}
+@media (max-width:520px){
+  .three,.rules,.facts,.ba,.formula,.weeks,.commit,.kv{grid-template-columns:1fr}
+  .act{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:1fr 1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB46A"/><stop offset="1" stop-color="#E0651A"/></linearGradient>
+    <linearGradient id="gBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#72BCFF"/><stop offset="1" stop-color="#1F6FE0"/></linearGradient>
+    <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#72DE9E"/><stop offset="1" stop-color="#1F9D57"/></linearGradient>
+    <linearGradient id="gPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BDA4FF"/><stop offset="1" stop-color="#6A4BE0"/></linearGradient>
+    <linearGradient id="gTeal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#74E6DB"/><stop offset="1" stop-color="#13A39A"/></linearGradient>
+    <linearGradient id="gYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27E"/><stop offset="1" stop-color="#F0A50E"/></linearGradient>
+    <linearGradient id="gRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF9191"/><stop offset="1" stop-color="#DE4646"/></linearGradient>
+    <linearGradient id="gSlate" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A5B2C8"/><stop offset="1" stop-color="#55627A"/></linearGradient>
+    <linearGradient id="gBean" x1="0.2" y1="0" x2="0.8" y2="1"><stop offset="0" stop-color="#FFE29A"/><stop offset=".55" stop-color="#F8C25A"/><stop offset="1" stop-color="#E8932A"/></linearGradient>
+    <linearGradient id="gLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8BE07A"/><stop offset="1" stop-color="#2E9D57"/></linearGradient>
+    <radialGradient id="gBadge" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FF9A52"/><stop offset="1" stop-color="#C9530F"/></radialGradient>
+  </defs>
+  <symbol id="soya" viewBox="0 0 120 130">
+    <ellipse cx="60" cy="123" rx="30" ry="5" fill="#000" opacity=".14"/>
+    <path d="M60 30 C60 20 62 13 66 8" fill="none" stroke="#2E9D57" stroke-width="4" stroke-linecap="round"/>
+    <path d="M61 22 C49 13 40 16 37 23 C47 28 56 27 61 22Z" fill="url(#gLeaf)"/>
+    <path d="M65 14 C73 4 85 6 88 12 C80 19 71 19 65 14Z" fill="url(#gLeaf)"/>
+    <path d="M28 84 Q12 78 15 62" fill="none" stroke="#E8932A" stroke-width="8" stroke-linecap="round"/>
+    <path d="M93 86 Q105 94 101 104" fill="none" stroke="#E8932A" stroke-width="8" stroke-linecap="round"/>
+    <path d="M60 28 C88 28 100 52 98 78 C96 105 78 119 58 117 C36 115 22 99 22 76 C22 50 34 28 60 28Z" fill="url(#gBean)"/>
+    <ellipse cx="45" cy="48" rx="14" ry="8" fill="#fff" opacity=".5" transform="rotate(-24 45 48)"/>
+    <ellipse cx="48" cy="66" rx="4.6" ry="6.2" fill="#2A2015"/>
+    <ellipse cx="72" cy="66" rx="4.6" ry="6.2" fill="#2A2015"/>
+    <circle cx="49.6" cy="63.6" r="1.7" fill="#fff"/><circle cx="73.6" cy="63.6" r="1.7" fill="#fff"/>
+    <ellipse cx="39" cy="77" rx="5.5" ry="3.4" fill="#FF7B5C" opacity=".5"/>
+    <ellipse cx="81" cy="77" rx="5.5" ry="3.4" fill="#FF7B5C" opacity=".5"/>
+    <path d="M51 78 Q60 87 69 78" fill="none" stroke="#2A2015" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="60" cy="100" r="11.5" fill="url(#gBadge)"/>
+    <text x="60" y="103.6" text-anchor="middle" font-family="Bricolage Grotesque, Segoe UI, sans-serif" font-weight="800" font-size="10" fill="#fff">260</text>
+    <path d="M100 16 L103 25 L112 28 L103 31 L100 40 L97 31 L88 28 L97 25Z" fill="#5AA9F2"/>
+    <path d="M110 44 L111.5 48 L115.5 49.5 L111.5 51 L110 55 L108.5 51 L104.5 49.5 L108.5 48Z" fill="#F0A50E"/>
+  </symbol>
+</svg>
+
+<header class="bar">
+  <div class="wrap">
+    <button type="button" class="brand" data-go="home" aria-label="260 Brands and Microsoft, go to Home">
+      <span class="logo-chip"><img src="data:image/png;base64,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" alt="260 Brands" width="63" height="40"></span>
+      <span class="logo-chip"><img src="data:image/png;base64,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" alt="Microsoft" width="112" height="24"></span>
+    </button>
+    <nav class="nav" aria-label="Playbook views">
+      <button type="button" data-go="home">Home</button>
+      <button type="button" data-go="demo">Demo Lab</button>
+      <button type="button" data-go="org">Organisation</button>
+      <button type="button" data-go="departments">Departments</button>
+      <button type="button" data-go="people">People</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="view" tabindex="-1"></main>
+
+<div class="buddy" id="buddy">
+  <div class="bubble" role="status"><button type="button" class="x" id="buddy-x" aria-label="Hide tip">×</button><b>Soya says</b><span id="buddy-tip">Start every prompt with the goal.</span><a id="buddy-chat" class="chat-cta" target="_blank" rel="noopener" hidden>Chat with Soya ↗</a></div>
+  <button type="button" class="me" id="buddy-me" aria-label="Show another tip from Soya"><svg class="mascot" viewBox="0 0 120 130"><use href="#soya"/></svg></button>
+</div>
+
+<div class="wrap">
+  <footer>
+    <span>Prepared by Sahan Indunil, Trident Corporation, for 260 Brands Zambia Ltd · Session 22 Oct 2026</span>
+    <span>Time savings are estimates from Copilot opportunity dashboards. Validate them in your first 30 days.</span>
+  </footer>
+</div>
+
+<script>
+/* Links work both on the Claude artifact and when self-hosted (e.g. GitHub Pages). */
+const BASE = location.hostname.endsWith("github.io") ? location.origin + location.pathname : "https://claude.ai/artifact/KnoQXqV7NmbdeX9Ark2MbK";
+/* Paste the Soya chat page URL here once it's live; the "Chat with Soya" button appears automatically. */
+const SOYA_CHAT_URL = "chat.html";
+
+const DEPTS = [
+  {id:"leadership", name:"Leadership and executive office", short:"Leadership", blurb:"Decisions, status questions and CEO packs depend on evidence scattered across everyone's inbox.",
+   frictions:["Status questions trigger long email chains across functions","Evidence for decisions sits in many files and versions","Meeting actions are followed up by email, not tracked"]},
+  {id:"finance", name:"Finance", short:"Finance", blurb:"Statutory deadlines, recons, budgets and approvals, mostly rebuilt by hand every cycle.",
+   frictions:["Recons rebuilt each cycle from separate payroll, return and statement files","Status chasing across approval and payment threads","Budget inputs arrive late or incomplete from other functions"]},
+  {id:"hr", name:"HR and corporate affairs", short:"HR", blurb:"People data and policy questions that should take minutes, not afternoons.",
+   frictions:["HR analytics (turnover, recruitment ratios, manpower vs budget) compiled by hand","The same policy and leave questions answered one email at a time","Attendance and leave approvals scattered across inbox alerts"]},
+  {id:"ops", name:"Operations and supply chain", short:"Ops & Supply Chain", blurb:"Three plants, spares, imports and SAP extracts, with email as the operating system.",
+   frictions:["Approval backlog and CC'd threads hide what needs a decision","Pending PR and spares lists resent by email for weeks","MRP, KPI and cost reports rebuilt from SAP extracts"]},
+  {id:"commercial", name:"Marketing and commercial", short:"Marketing & Commercial", blurb:"Activations, launches, debtors and board snapshots across many functions.",
+   frictions:["Board activation snapshot built by hand every week","New-product launches need inputs from six functions by email","Debtor and partner follow-ups tracked manually"]},
+  {id:"it", name:"IT and governance", short:"IT", blurb:"Make Copilot safe, switched on and trusted.",
+   frictions:["Files shared too widely become visible to Copilot","Transcription, recap and Agent Builder need switching on","SAP and SharePoint access questions from the May session"]}
+];
+
+const PEOPLE = [
+  {id:"gaurav", name:"Gaurav Vijayvargiya", short:"Gaurav", role:"Chief Executive Officer", dept:"leadership", start:"L2",
+   frictions:["Status questions set off email chains across functions","Wants Copilot tools and agents matched to each function (May session)","Decision evidence spread across inboxes and files"]},
+  {id:"rupen", name:"Rupen Rudra", short:"Rupen", role:"Chief Financial Officer", dept:"finance", start:"F2",
+   frictions:["Very tight reporting deadlines","Recons and commentary rebuilt each cycle","Budget inputs from functions arrive late"]},
+  {id:"anand", name:"Anand Manda", short:"Anand", role:"Chief Commercial Officer", dept:"commercial", start:"M3",
+   frictions:["Debtor follow-ups tracked manually before reviews","Sales, marketing and supply inputs scattered across email","Forecasts feeding S&OP change without a decision log"]},
+  {id:"tulasi", name:"Tulasi Nandikolla", short:"Tulasi", role:"Executive office · business coordination", dept:"leadership", start:"L2",
+   frictions:["Coordinating across the whole business by email","Meeting prep and follow-up for leadership","Pulling together status for the CEO"]},
+  {id:"amit", name:"Amit Mukherjee", short:"Amit", role:"Finance & Accounts · transformation", dept:"finance", start:"F3",
+   frictions:["Status chasing across approval threads","Manual consolidation and spreadsheet versions","Late cross-functional budget inputs"]},
+  {id:"ajay", name:"Ajay Kumar Shrivastava", short:"Ajay", role:"Assistant Finance Manager", dept:"finance", start:"F1",
+   frictions:["Statutory recons rebuilt from multiple sources","Long multi-party email threads","Formal letters re-drafted for tone 2–4 times"]},
+  {id:"francis", name:"Francis Sibamba Jr", short:"Francis", role:"HR & Corporate Affairs Manager", dept:"hr", start:"H1",
+   frictions:["HR analytics compiled by hand (turnover, recruitment, manpower vs budget)","Repeated policy and leave questions","Reporting and data analysis for management"]},
+  {id:"buumba", name:"Buumba N. Bwalya", short:"Buumba", role:"Head of Operations", dept:"ops", start:"E1",
+   frictions:["CC'd on threads where others chase each other","Pending-materials lists resent for weeks","Many versions of management and RCA packs"]},
+  {id:"musonda", name:"Musonda Chola", short:"Musonda", role:"Assistant Supply Chain Manager", dept:"ops", start:"E1",
+   frictions:["Approval backlog in the inbox","Chasing suppliers, agents and colleagues","Reports rebuilt from SAP extracts"]},
+  {id:"mohit", name:"Mohit Agnihotri", short:"Mohit", role:"Operations Manager · projects", dept:"ops", start:"O4",
+   frictions:["Vendor comparisons built from scratch each time","Copilot used mostly in Chat, not inside Excel and Outlook","Project issues and vendor commitments tracked across email"]},
+  {id:"ethel", name:"Ethel Mwambazi", short:"Ethel", role:"Head of Marketing & PR", dept:"commercial", start:"E2",
+   frictions:["Many approvals arriving by email every day","Weekly board snapshot built by hand","New-product inputs needed from six functions"]},
+  {id:"arun", name:"Arun Sowri", short:"Arun", role:"Commercial (role to confirm)", dept:"commercial", start:"M3",
+   frictions:["Debtor and retailer follow-ups","Activation and sales reporting"]},
+  {id:"suraj", name:"Suraj Rathnayaka", short:"Suraj", role:"IT · session organiser", dept:"it", start:"I1",
+   frictions:["Make sure Copilot only sees what it should","Switch on recap, transcription and Agent Builder","Answer SAP and SharePoint questions from May"]},
+  {id:"ginisha", name:"Ginisha VJ", short:"Ginisha", role:"Role to confirm", dept:"leadership", start:"E1",
+   frictions:["Starts with the three everyday habits until the role is confirmed"]}
+];
+const ALL = PEOPLE.map(p=>p.id);
+
+/* level: User | Department | Organisation */
+const SC = [
+  {code:"E1", dept:"everyone", level:"User", title:"What needs my decision today?", tool:"Copilot Chat",
+   before:"Hundreds of unread emails. Approvals get buried under CC'd threads.", after:"One short list of what needs you, sorted by urgency, every morning.",
+   prompt:"List emails from the last 48 hours that need my approval or decision. Group by urgency, show who is asking, what they need, and whether attachments are included. Leave out emails where I'm only in CC unless something is overdue.", save:"1–3 hrs/week", who:ALL},
+  {code:"E2", dept:"everyone", level:"User", title:"Reply inside the thread", tool:"Copilot in Outlook",
+   before:"Long threads re-read from the start; formal replies rewritten 2–4 times.", after:"A summary of the thread, then a draft reply in the right tone, in seconds.",
+   prompt:"Summarise this thread: decisions made, open items with owner and deadline, and documents still missing. Then draft a short, polite but firm reply confirming next steps and dates.", save:"1–2 hrs/week", who:ALL},
+  {code:"E3", dept:"everyone", level:"User", title:"Meetings that write their own minutes", tool:"Teams recap",
+   before:"S&OP, SNOP and weekly reviews have no recap. Actions are chased later by email.", after:"Decisions, actions, owners and dates ready the moment the meeting ends.",
+   prompt:"Summarise this meeting: decisions made, every action with owner and due date as a table, and anything carried over from last time. Flag actions for my team.", save:"1–2 hrs/week", who:ALL},
+
+  {code:"L1", dept:"leadership", level:"User", title:"One-page CEO brief in minutes", tool:"Copilot Chat + Word",
+   before:"Each status request means digging through emails and files, then many versions of the pack.", after:"A one-page brief with status, root cause, options and the decision needed.",
+   prompt:"Using my emails and files from the last 30 days about [topic], draft a one-page brief for the CEO: current status, root cause, two or three options with risks, my recommendation, and the decision needed this week.", save:"1–2 hrs/week", who:["gaurav","tulasi","buumba","amit","rupen"]},
+  {code:"L2", dept:"leadership", level:"User", title:"Walk into every meeting prepared", tool:"Copilot Chat",
+   before:"Prep means scrolling through old emails five minutes before the call.", after:"The decisions needed, open actions and the questions to ask, before you join.",
+   prompt:"Prepare me for my next meeting about [topic] using the invite, related emails and files from the last 14 days. Give me the three decisions needed, open actions, blockers and the questions I should ask.", save:"0.5–1 hr/week", who:["gaurav","rupen","anand","tulasi","buumba","ethel"]},
+  {code:"L3", dept:"leadership", level:"Department", title:"Weekly leadership digest", tool:"Copilot Chat (scheduled)",
+   before:"Leaders ask each head for status separately, every week.", after:"One scheduled digest every Monday: what moved, what's stuck, what needs a decision.",
+   prompt:"Every Monday at 8am, summarise last week's emails and meetings I was part of: what moved forward, what is stuck and who owns it, and the decisions I need to make this week. Keep it under one page.", save:"1–2 hrs/week", who:["gaurav","tulasi","rupen","anand"]},
+
+  {code:"F1", dept:"finance", level:"User", title:"Statutory recon without the rebuild", tool:"Copilot in Excel",
+   before:"PAYE, NAPSA and NHIMA recons rebuilt every month from separate files, peaking before the 10th.", after:"Payroll vs return vs paid in one table, with a status column and an exceptions list.",
+   prompt:"Using this payroll sheet and the statutory statement, build a recon for [month]: payroll vs return vs paid, the variance, and a Status column (Matched / Variance / Missing). List the exceptions in a separate table.", save:"3–5 hrs/week", who:["ajay","amit","rupen"]},
+  {code:"F2", dept:"finance", level:"User", title:"Variance commentary that writes itself", tool:"Copilot in Excel + Word",
+   before:"Workbooks compared by eye; management narrative written from scratch each cycle.", after:"Material movements found, explained, and drafted as review-ready commentary.",
+   prompt:"Compare the current and prior period in this workbook. Find material movements, duplicates and balances that don't reconcile. Draft short variance commentary for management. Do not change the source data.", save:"1–2 hrs/week", who:["amit","rupen","ajay"]},
+  {code:"F3", dept:"finance", level:"Department", title:"Budget inputs that arrive on time", tool:"Lists + Power Automate",
+   before:"Finance chases late or incomplete budget inputs from every function.", after:"One tracker: submitted, incomplete, overdue. Reminders go out automatically.",
+   prompt:"From my emails about the [year] budget, list each function's input status: submitted, incomplete, overdue or not started. For each gap, say what's missing and draft a short reminder to the owner.", save:"1–3 hrs/week (team)", who:["amit","rupen","buumba","ethel","francis","anand"]},
+  {code:"F4", dept:"finance", level:"Department", title:"Formal letters agent", tool:"Agent Builder",
+   before:"Letters to the tax authority, banks and insurers redrafted for tone and caution.", after:"An agent trained on your approved past letters drafts the next one in house style.",
+   prompt:"Draft a formal letter to [authority / bank / insurer] about [subject], in our standard finance letter style, legally cautious, under one page, with my signature block.", save:"1–2 hrs/week", who:["ajay","rupen","amit"]},
+  {code:"F5", dept:"finance", level:"Department", title:"Shared month-end close checklist", tool:"Loop + Copilot",
+   before:"Month-end steps live in personal calendar reminders and separate emails.", after:"One shared checklist with owners, due days and a live status summary.",
+   prompt:"Create a month-end close checklist for Finance with tasks, owner by role, due day (WD-2 to WD+10) and dependencies, based on our recurring finance reminders and meetings.", save:"3–6 hrs/week (team)", who:["ajay","amit","rupen"]},
+
+  {code:"H1", dept:"hr", level:"User", title:"Manpower vs budget, in plain answers", tool:"Copilot in Excel",
+   before:"Headcount, turnover and recruitment ratios pulled together by hand for each review.", after:"Turnover, vacancies and manpower vs budget by department, with a short summary.",
+   prompt:"Using this headcount sheet, show manpower vs budget by department, monthly turnover rate and open vacancies. Highlight departments over budget and write a five-line summary for management.", save:"1–2 hrs/week", who:["francis","rupen","buumba","gaurav"]},
+  {code:"H2", dept:"hr", level:"Department", title:"HR policy agent for everyone", tool:"Agent Builder",
+   before:"The same leave, travel advance and policy questions answered one email at a time.", after:"Staff ask the agent; it answers from the handbook and names the section.",
+   prompt:"Create an agent called \"260 HR Helper\" using our HR policy, leave rules and travel advance procedure. It answers staff questions in plain English and always names the policy section it used.", save:"1–2 hrs/week (team)", who:["francis","ethel","buumba","tulasi"]},
+  {code:"H3", dept:"hr", level:"User", title:"Recruitment shortlist and interview pack", tool:"Copilot Chat + Word",
+   before:"CVs read one by one; interview questions written from scratch.", after:"A ranked shortlist against the job description and a ready interview guide.",
+   prompt:"Compare the attached CVs against this job description. Rank the candidates with reasons, flag gaps to probe, and draft eight interview questions for the top three.", save:"1–2 hrs/week", who:["francis","buumba","ajay"]},
+
+  {code:"O1", dept:"ops", level:"Department", title:"A live pending-PR list from your inbox", tool:"Copilot Chat → Lists",
+   before:"The same pending-materials table resent by email for two months.", after:"One table built from your emails, with owner and days open. Then it lives in a List.",
+   prompt:"From the pending-materials emails in my inbox, build a table: item, request date, PR number, plant, owner, latest status and days open. Highlight anything open more than 30 days.", save:"3–5 hrs/week (team)", who:["buumba","musonda","mohit"]},
+  {code:"O2", dept:"ops", level:"User", title:"MRP exceptions in one prompt", tool:"Copilot in Excel / Analyst",
+   before:"The twice-weekly MRP review needs a fresh exception list built from the SAP extract.", after:"Stock-out risks, over-stock and overdue orders, one table per buyer.",
+   prompt:"Using this SAP MRP extract, list materials that will run out before the next delivery, materials over their inventory-days target, and open orders past due. One table per buyer, with a recommended action.", save:"2–3 hrs/week", who:["musonda","buumba"]},
+  {code:"O3", dept:"ops", level:"User", title:"Chase suppliers in one go", tool:"Copilot in Outlook",
+   before:"Quotes, samples and shipping documents chased one email at a time.", after:"Every unanswered request found, with a firm follow-up drafted for each.",
+   prompt:"Find supplier threads where I asked for a quote, sample or document more than 5 days ago and got no reply. Draft a short, firm follow-up for each with a clear deadline.", save:"1–2 hrs/week", who:["musonda","mohit","ethel"]},
+  {code:"O4", dept:"ops", level:"User", title:"Vendor comparison in a standard format", tool:"Copilot in Excel + Word",
+   before:"Each technical-commercial comparison built from scratch from quotations.", after:"Same template every time: scope, price, delivery, risk and a clear recommendation.",
+   prompt:"Compare these vendor quotations in a table: scope, price, delivery time, payment terms and risks. Recommend one vendor with reasons and draft a short approval note for management.", save:"1–2 hrs/week", who:["mohit","musonda","rupen","buumba"]},
+  {code:"O5", dept:"ops", level:"Department", title:"Supply chain SOP guide agent", tool:"Agent Builder",
+   before:"Buyers ask the same process, lead-time and approval questions again and again.", after:"An agent answers from your SOPs and approval matrix, and cites the section.",
+   prompt:"Create an agent called \"Supply Chain SOP Guide\" using our planning SOP, spares SOP, approval matrix and lead-time table. It answers buyer questions and cites the SOP section.", save:"2–4 hrs/week (team)", who:["musonda","mohit","buumba"]},
+  {code:"O6", dept:"ops", level:"Department", title:"SNOP decision and action log", tool:"Teams recap + Loop",
+   before:"SNOP decisions and forecast changes are not recorded with owners and dates.", after:"One shared log of decisions, forecast changes, owners and carry-overs.",
+   prompt:"From the last SNOP recap, create a Loop table of decisions, forecast changes, owner, due date and status, and flag anything carried over from previous weeks.", save:"1–2 hrs/week (team)", who:["buumba","musonda","anand","arun","mohit"]},
+  {code:"O7", dept:"ops", level:"User", title:"Shipment and customs digest", tool:"Copilot Chat",
+   before:"Shipment status, documents and clearance issues scattered across agent emails.", after:"One weekly table: status, ETA, missing documents and blockers.",
+   prompt:"Summarise all freight forwarder and clearing agent emails from the past 7 days: shipment, current status, ETA, missing documents and any payment or customs blocker. Output as a table.", save:"1–3 hrs/week", who:["musonda","buumba"]},
+  {code:"O8", dept:"ops", level:"User", title:"Project page for Nourish Africa work", tool:"Copilot Pages",
+   before:"Issues, decisions and vendor commitments for each project live across email.", after:"One running page per project, updated from emails and meetings.",
+   prompt:"From my emails and meetings about [project] in the last 30 days, build a project page: open issues with owner, decisions made, vendor commitments with dates, and the next three risks.", save:"1–2 hrs/week", who:["mohit","buumba","gaurav"]},
+
+  {code:"M1", dept:"commercial", level:"User", title:"Weekly activation snapshot for the board", tool:"Copilot in Excel",
+   before:"The activation tracker and board snapshot are compiled by hand each week.", after:"KPIs by region and a five-bullet summary with risks, ready to send.",
+   prompt:"Using this activation tracker, calculate days, man-days, cases sold, cases per promoter per day and achievement vs target by region. Then write a five-bullet board summary with risks.", save:"1.5–2.5 hrs/week", who:["ethel","anand","arun"]},
+  {code:"M2", dept:"commercial", level:"Department", title:"Brand and artwork checker", tool:"Agent Builder",
+   before:"Artwork rounds catch missing mandatory text late; agencies briefed on the same facts repeatedly.", after:"An agent checks briefs and artwork against your brand and packaging checklist.",
+   prompt:"Check this artwork brief against our brand guidelines and packaging checklist. List anything missing, inconsistent or off-brand.", save:"2–3 hrs/week (team)", who:["ethel","anand"]},
+  {code:"M3", dept:"commercial", level:"Department", title:"Debtor follow-ups from the ageing report", tool:"Copilot in Excel + Outlook",
+   before:"Overdue accounts reviewed before each debtors meeting; follow-ups written one by one.", after:"Top overdue buckets, change since last week, and drafted follow-ups for 60+ days.",
+   prompt:"Analyse this AR ageing: top overdue buckets, change versus last week, and the ten largest overdue accounts. Draft polite but firm follow-up emails for accounts over 60 days.", save:"2–3 hrs/week (team)", who:["anand","arun","ajay","amit"]},
+  {code:"M4", dept:"commercial", level:"Department", title:"Marketing request and approval intake", tool:"Lists + Power Automate",
+   before:"Stock, sample, travel and PO requests arrive by email with no visible status.", after:"A simple form, automatic approval routing and a status everyone can see.",
+   prompt:"From my last 30 days of emails, list every marketing request (samples, stock, travel, POs): requester, item, date, approved or pending. Then suggest the fields a request form should have.", save:"2–4 hrs/week (team)", who:["ethel","arun","anand"]},
+  {code:"M5", dept:"commercial", level:"User", title:"Award and submission evidence notebook", tool:"Copilot Notebooks",
+   before:"Every award entry re-gathers the same company facts and figures.", after:"Approved facts in one notebook; drafts in your company voice in minutes.",
+   prompt:"Using the files in this notebook, draft a 450–500 word answer for the category below, in our company voice, flagging any figure that needs Finance validation.", save:"1–2 hrs/week", who:["ethel","tulasi"]},
+
+  {code:"I1", dept:"it", level:"Department", title:"Who can see what?", tool:"SharePoint + Copilot",
+   before:"Files shared to \"everyone\" become searchable by Copilot for everyone.", after:"Sensitive folders checked before agents go live; transcription and recap switched on.",
+   prompt:"List the SharePoint sites and folders I own that are shared with the whole organisation or with external people, and flag any that look like finance, payroll or HR data.", save:"Risk avoided", who:["suraj","gaurav","rupen"]},
+  {code:"I2", dept:"it", level:"Department", title:"Readiness checklist for agents", tool:"Copilot Chat",
+   before:"Agents built before data, permissions and owners are clear.", after:"A short go-live checklist for every agent a team builds.",
+   prompt:"Draft a one-page go-live checklist for a team agent at 260 Brands: data sources, who can access it, owner, test questions, what it must never answer, and review date.", save:"Risk avoided", who:["suraj","gaurav"]}
+];
+
+const ORG = [
+  {code:"ORG1", title:"Request-to-decision control tower", tool:"Copilot Studio + Power Automate + Lists",
+   before:"Approvals, data setup, budget inputs and reporting run through separate email and spreadsheet flows.", after:"One guided intake, automatic routing and reminders, and a weekly CEO digest.",
+   flow:["Request form","Copilot checks it's complete","Approval in Teams","PO and receipt tracked","Reminders sent automatically","Weekly CEO digest"],
+   value:"Faster cycle visibility, fewer incomplete hand-offs, a clear audit trail.", guard:"A person approves every step. Reads SAP exports, never writes back. Starts with one flow.",
+   prompt:"From the request register, produce an executive exception brief: overdue stages, incomplete submissions, blocked decisions, recurring root causes and the next action by function. Never approve or post transactions.",
+   save:"4–8 hrs/week across functions", who:ALL},
+  {code:"ORG2", title:"New-product launch readiness hub", tool:"Copilot Studio + SharePoint",
+   before:"Each launch needs inputs from R&D, QA, production, supply chain, barcodes and forecasts, all chased by email.", after:"Each function fills its section; the agent answers \"what's outstanding?\" and drafts the chasers.",
+   flow:["Brief in tracker","Each function completes its part","Automatic reminders","Agent reports gaps","Artwork released"],
+   value:"Faster time to shelf, fewer artwork errors, visible accountability.", guard:"Human sign-off on artwork and QA. Formulations and pricing stay restricted.",
+   prompt:"For new product [name], show which packaging-brief inputs are still outstanding by function and draft a reminder to each owner.",
+   save:"3–6 hrs/week across company", who:["ethel","anand","musonda","mohit","buumba","gaurav"]},
+  {code:"ORG3", title:"Forecast-to-purchase planning agent", tool:"Copilot Studio + SAP exports",
+   before:"Sales forecasts, MRP and purchasing are linked by manual downloads and reviews.", after:"The agent proposes order, expedite or hold actions and flags exceptions for approval.",
+   flow:["Sales forecast","Bill of materials","Stock and open orders checked","Purchase actions proposed","Leader approves","Accuracy fed back"],
+   value:"Fewer stock-outs and emergency buys, lower inventory days, one shared forecast.", guard:"Clean master data first. Human approval on every order.",
+   prompt:"Using our planning SOP and the latest MRP extract, draft decision rules for a planning agent: when to order, expedite or hold, and what must go to a person.",
+   save:"5–10 hrs/week across planning", who:["musonda","buumba","anand","arun","rupen","gaurav"]},
+  {code:"ORG4", title:"Finance-to-operations hand-offs", tool:"Copilot Studio + Power Automate",
+   before:"Credit notes, remittances, payroll inputs and evidence are chased and re-keyed between functions.", after:"Standard forms, completeness checks, and evidence filed automatically in SharePoint.",
+   flow:["Intake form","Completeness check","Approval route","Finance posting checklist","Evidence filed"],
+   value:"Faster approvals, fewer re-keying errors, an evidence trail ready for audit and due diligence.", guard:"No write-back to the ERP. Sensitivity labels on finance data.",
+   prompt:"Map our credit-note approval flow from sales request to finance posting. List the information needed at each step, the usual delays, and propose an intake form and approval route.",
+   save:"Team-wide (estimate in pilot)", who:["ajay","amit","rupen","buumba","anand","arun"]}
+];
+
+/* ---------- 3D icon set (glossy tile + raised glyph) ---------- */
+const ICONS = {
+  inbox:["Blue",`<rect x="17" y="21" width="30" height="22" rx="4" stroke="none"/>`,`<path d="M19.5 24l12.5 9 12.5-9" fill="none" stroke="#1F6FE0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`],
+  chat:["Purple",`<path d="M16 22a6 6 0 0 1 6-6h20a6 6 0 0 1 6 6v12a6 6 0 0 1-6 6H31l-9 7v-7a6 6 0 0 1-6-6z" stroke="none"/>`,`<circle cx="25" cy="28" r="2.6" fill="#6A4BE0"/><circle cx="32" cy="28" r="2.6" fill="#6A4BE0"/><circle cx="39" cy="28" r="2.6" fill="#6A4BE0"/>`],
+  meeting:["Teal",`<rect x="13" y="22" width="27" height="20" rx="5" stroke="none"/><path d="M42 28l9-5v18l-9-5z" stroke="none"/>`,`<circle cx="26.5" cy="32" r="4" fill="#13A39A"/>`],
+  excel:["Green",`<rect x="16" y="16" width="32" height="32" rx="5" stroke="none"/>`,`<path d="M16 27h32M16 37.5h32M27 16v32" stroke="#1F9D57" stroke-width="2.6" fill="none"/>`],
+  chart:["Orange",`<rect x="17" y="34" width="8" height="13" rx="2" stroke="none"/><rect x="28" y="25" width="8" height="22" rx="2" stroke="none"/><rect x="39" y="16" width="8" height="31" rx="2" stroke="none"/>`,""],
+  agent:["Purple",`<rect x="16" y="23" width="32" height="23" rx="8" stroke="none"/><rect x="30" y="15" width="4" height="9" rx="2" stroke="none"/><circle cx="32" cy="13.5" r="3.6" stroke="none"/><rect x="11" y="30" width="5" height="9" rx="2" stroke="none"/><rect x="48" y="30" width="5" height="9" rx="2" stroke="none"/>`,`<circle cx="26" cy="34" r="3.2" fill="#6A4BE0"/><circle cx="38" cy="34" r="3.2" fill="#6A4BE0"/><path d="M27 40.5h10" stroke="#6A4BE0" stroke-width="2.4" stroke-linecap="round"/>`],
+  flow:["Teal",`<path d="M20 22H44M20 22L32 44M44 22L32 44" fill="none" stroke-width="4"/><circle cx="20" cy="22" r="6" stroke="none"/><circle cx="44" cy="22" r="6" stroke="none"/><circle cx="32" cy="44" r="6" stroke="none"/>`,""],
+  shield:["Green",`<path d="M32 13l15 6v10c0 10-6.5 17-15 21-8.5-4-15-11-15-21V19z" stroke="none"/>`,`<path d="M25 31.5l5 5 9.5-10" fill="none" stroke="#1F9D57" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>`],
+  org:["Orange",`<rect x="20" y="15" width="24" height="34" rx="3" stroke="none"/><rect x="12" y="29" width="10" height="20" rx="2" stroke="none"/><rect x="42" y="25" width="10" height="24" rx="2" stroke="none"/>`,`<g fill="#E0651A"><rect x="25" y="20" width="5" height="5" rx="1"/><rect x="34" y="20" width="5" height="5" rx="1"/><rect x="25" y="29" width="5" height="5" rx="1"/><rect x="34" y="29" width="5" height="5" rx="1"/><rect x="29" y="40" width="6" height="9" rx="1"/></g>`],
+  team:["Blue",`<circle cx="26" cy="24" r="6.5" stroke="none"/><circle cx="41" cy="26" r="5.2" stroke="none"/><path d="M13 47c0-7.5 5.5-12.5 13-12.5S39 39.5 39 47z" stroke="none"/><path d="M35 47c0-6 3-10 7.5-10S51 41 51 47z" stroke="none"/>`,""],
+  doc:["Slate",`<path d="M21 13h15l10 10v25a3 3 0 0 1-3 3H21a3 3 0 0 1-3-3V16a3 3 0 0 1 3-3z" stroke="none"/>`,`<path d="M24 31h16M24 37h16M24 43h10" stroke="#55627A" stroke-width="2.6" stroke-linecap="round"/><path d="M36 13v10h10" fill="none" stroke="#A5B2C8" stroke-width="2"/>`],
+  bolt:["Yellow",`<path d="M36 11L18 36h12l-3 17 19-26H34z" stroke="none"/>`,""],
+  target:["Red",`<circle cx="32" cy="32" r="16" stroke="none"/>`,`<circle cx="32" cy="32" r="11" fill="#DE4646"/><circle cx="32" cy="32" r="6.2" fill="#fff"/><circle cx="32" cy="32" r="2.6" fill="#DE4646"/>`],
+  search:["Blue",`<circle cx="28" cy="28" r="10" fill="none" stroke-width="5"/><path d="M36 36l10 10" fill="none" stroke-width="6.5" stroke-linecap="round"/>`,""],
+  calendar:["Red",`<rect x="15" y="17" width="34" height="31" rx="5" stroke="none"/><rect x="22" y="12" width="4" height="9" rx="2" stroke="none"/><rect x="38" y="12" width="4" height="9" rx="2" stroke="none"/>`,`<path d="M15 26h34" stroke="#DE4646" stroke-width="3"/><g fill="#DE4646"><rect x="21" y="31" width="5" height="5" rx="1"/><rect x="29.5" y="31" width="5" height="5" rx="1"/><rect x="38" y="31" width="5" height="5" rx="1"/><rect x="21" y="39" width="5" height="5" rx="1"/></g>`],
+  megaphone:["Red",`<path d="M15 27h9l19-10v30L24 37h-9a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z" stroke="none"/><path d="M24 37l3.5 10h6L31 37z" stroke="none"/><path d="M48 26c3 2 3 10 0 12" fill="none" stroke-width="3.2" stroke-linecap="round"/>`,""],
+  slides:["Orange",`<rect x="12" y="15" width="40" height="26" rx="4" stroke="none"/><path d="M32 41v7M24 50h16" fill="none" stroke-width="3.6" stroke-linecap="round"/>`,`<path d="M18 35l7-7 5 4 9-10" fill="none" stroke="#E0651A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>`],
+  notebook:["Yellow",`<rect x="18" y="12" width="29" height="40" rx="4" stroke="none"/>`,`<path d="M24.5 12v40" stroke="#C0840A" stroke-width="2.4"/><path d="M29.5 22h12M29.5 28.5h12M29.5 35h8" stroke="#C0840A" stroke-width="2.4" stroke-linecap="round"/>`],
+  lock:["Slate",`<rect x="18" y="29" width="28" height="20" rx="5" stroke="none"/><path d="M24 29v-6a8 8 0 0 1 16 0v6" fill="none" stroke-width="5"/>`,`<circle cx="32" cy="38" r="3" fill="#55627A"/>`]
+};
+const DARK={Orange:"#B84E0E",Blue:"#1550A8",Green:"#157A43",Purple:"#4E35AE",Teal:"#0D7A73",Yellow:"#C0840A",Red:"#A83232",Slate:"#3E4A5E"};
+(function buildSprite(){
+  const ns="http://www.w3.org/2000/svg";
+  const sp=document.querySelector("svg[aria-hidden] defs").parentNode;
+  let out="";
+  for(const [id,[g,glyph,detail]] of Object.entries(ICONS)){
+    out+=`<symbol id="i-${id}" viewBox="0 0 64 64">
+      <rect x="4" y="7" width="56" height="53" rx="16" fill="${DARK[g]}"/>
+      <rect x="4" y="4" width="56" height="52" rx="16" fill="url(#g${g})"/>
+      <rect x="9" y="7" width="46" height="17" rx="9" fill="#fff" opacity=".22"/>
+      <g transform="translate(0 2.2)" fill="#000" stroke="#000" opacity=".2">${glyph}</g>
+      <g fill="#fff" stroke="#fff">${glyph}</g>${detail}</symbol>`;
+  }
+  sp.insertAdjacentHTML("beforeend",out);
+})();
+const icon=(id,cls="")=>`<svg class="ico ${cls}" viewBox="0 0 64 64" aria-hidden="true"><use href="#i-${id}"/></svg>`;
+const mascot=()=>`<svg class="mascot" viewBox="0 0 120 130" role="img" aria-label="Soya, the 260 Brands Copilot buddy"><use href="#soya"/></svg>`;
+function toolIcon(t){
+  t=t.toLowerCase();
+  if(t.includes("studio")||t.includes("agent builder")) return "agent";
+  if(t.includes("outlook")) return "inbox";
+  if(t.includes("excel")||t.includes("analyst")) return "excel";
+  if(t.includes("teams")) return "meeting";
+  if(t.includes("lists")||t.includes("power automate")||t.includes("loop")) return "flow";
+  if(t.includes("sharepoint")) return "shield";
+  if(t.includes("word")||t.includes("pages")||t.includes("notebook")) return "doc";
+  if(t.includes("scheduled")) return "calendar";
+  return "chat";
+}
+const DEPT_ICON={leadership:"target",finance:"chart",hr:"team",ops:"flow",commercial:"megaphone",it:"lock"};
+const TIPS=[
+  "Start every prompt with the goal: what do you want?",
+  "Copilot only sees what you can already see. Nothing more.",
+  "Stuck? Type 🙋 in the chat and your buddy will help.",
+  "Check every number before you press send.",
+  "Change the words in [brackets] before you run a prompt.",
+  "Not quite right? Reply with one more detail and ask again.",
+  "Use a prompt every day? Schedule it to run at 7am.",
+  "Agents learn from your documents. Give them two or three good ones.",
+  "Ask for a table when you want to compare things.",
+  "Say who the answer is for: the CEO, a supplier or your team."
+];
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const view=$("#view");
+const person=id=>PEOPLE.find(p=>p.id===id);
+const dept=id=>DEPTS.find(d=>d.id===id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const initials=n=>n.split(" ").filter(Boolean).slice(0,2).map(w=>w[0]).join("");
+const allItems=()=>SC.concat(ORG.map(o=>({...o,level:"Organisation",dept:"org"})));
+const forPerson=id=>allItems().filter(s=>s.who.includes(id));
+let done={}; try{done=JSON.parse(localStorage.getItem("pb-done")||"{}")}catch(e){done={}}
+
+function openLink(token,label){return `<a class="open-new" href="${BASE}#${token}" target="_blank" rel="noopener">${label||"Open in new tab"} ↗</a>`}
+function crumbs(parts){return `<div class="crumbs">${parts.map(p=>p.go?`<button type="button" data-go="${p.go}">${p.label}</button>`:`<span>${p.label}</span>`).join("<span>›</span>")}</div>`}
+function whoTags(list){
+  if(list.length===ALL.length) return `<span class="tags"><button type="button" data-go="people">All 14 participants</button></span>`;
+  return `<span class="tags">${list.map(id=>`<button type="button" data-go="p-${id}">${person(id).short}</button>`).join("")}</span>`;
+}
+function card(s){
+  const lvl=s.level||"User";
+  const flow=s.flow?`<div class="flow">${s.flow.map(f=>`<span>${f}</span>`).join("<i>→</i>")}</div>
+    <div class="facts"><div><b>Built with</b>${s.tool}</div><div><b>Value to 260 Brands</b>${s.value}</div><div><b>Guardrails</b>${s.guard}</div></div>`:"";
+  return `<article class="sc ${lvl==="Organisation"?"org":""}">
+    <div class="sc-top"><div class="ihead">${icon(lvl==="Organisation"?"org":toolIcon(s.tool))}<h3><span class="muted" style="font-family:var(--mono);font-size:13px">${s.code}</span>&nbsp; ${s.title}</h3></div>
+      <span class="badges"><span class="lvl ${lvl}">${lvl}</span><span class="tool">${s.tool.split(" + ")[0]}</span></span></div>
+    <div class="ba"><div class="before"><b>Today</b>${s.before}</div><div class="after"><b>With Copilot</b>${s.after}</div></div>
+    ${flow}
+    <div class="prompt">${esc(s.prompt)}</div>
+    <div class="sc-foot">
+      <button type="button" class="copy" data-p="${esc(s.prompt)}">Copy prompt</button>
+      <span class="saved">≈ ${s.save}</span>
+      <label class="done"><input type="checkbox" id="done-${s.code}" data-code="${s.code}" ${done[s.code]?"checked":""}> Tried it</label>
+    </div>
+    ${whoTags(s.who)}
+  </article>`;
+}
+function grouped(items){
+  return ["Organisation","Department","User"].map(l=>{
+    const g=items.filter(s=>(s.level||"User")===l); if(!g.length) return "";
+    const lab={Organisation:"Organisation level",Department:"Department level",User:"Personal level"}[l];
+    const sub={Organisation:"Company-wide builds that need a leadership decision",Department:"Shared by the team: trackers, agents and checklists",User:"You can do these yourself, starting tomorrow"}[l];
+    return `<div class="group-h"><h2 style="font-size:20px">${lab}</h2><span class="muted">${sub} · ${g.length}</span></div><div class="cards">${g.map(card).join("")}</div>`;
+  }).join("");
+}
+
+/* ---------- Demo Lab: daily work consolidated by app ---------- */
+const APPS = [
+  {id:"chat", name:"Copilot Chat", icon:"chat", mins:4, tag:"Your front door. One place to ask about all your emails, chats, meetings and files.", demos:[
+    {title:"Morning catch-up across everything", daily:"Starting the day by opening Outlook, Teams and files one by one to see what changed.",
+     steps:["Open Microsoft 365 Copilot and choose the Work tab","Paste the prompt and run it","Click a cited source to show it's your real data","Follow up: \"Draft replies for the top three\""],
+     prompt:"What happened since yesterday that I need to know? Check my emails, Teams chats, meetings and files. Give me the top five items, who they're from and what I need to do.", go:["E1","L3"]},
+    {title:"Find that email or file in seconds", daily:"Scrolling old threads for a quote, a letter, an attachment or a past decision.",
+     steps:["Ask in plain English, no folder or exact title needed","Open the linked source","Ask a follow-up about what it says"],
+     prompt:"Find the most recent email or file about [supplier or topic]. Tell me what it says, who sent it and when, and link the source.", go:["O3","O7","F4"]},
+    {title:"Research with sources (Researcher)", daily:"Checking a rule, a market or a supplier across many browser tabs.",
+     steps:["Pick the Researcher agent in Copilot Chat","Give it the topic and who the answer is for","Show the sources it lists","Remind the room: check the sources before you rely on them"],
+     prompt:"Research [topic, e.g. recent changes to Zambian statutory payroll deductions]. Give me a one-page brief: key points, what changed recently, what it means for our finance team, and the sources.", go:["L1","H1","F1"]}
+  ]},
+  {id:"outlook", name:"Outlook", icon:"inbox", mins:3, tag:"Where most of the day's chasing, approving and replying happens.", demos:[
+    {title:"Summarise a long thread", daily:"Re-reading 20-message threads about claims, shipments or approvals before replying.",
+     steps:["Open the longest thread in your inbox","Click Summarise at the top of the email","Point out decisions, owners and missing documents"],
+     prompt:"Summarise this thread: decisions made, open items with owner and deadline, and documents still missing.", go:["E2","E1"]},
+    {title:"Draft and coach a reply", daily:"Rewriting formal emails to suppliers, authorities and leadership two to four times.",
+     steps:["Click Draft with Copilot","Describe what you want in one sentence","Change tone and length with one click","Run Coaching to check tone and clarity before sending"],
+     prompt:"Draft a firm but polite reply asking [supplier] to confirm the delivery date by Friday and send the missing shipping documents.", go:["O3","F4","E2"]},
+    {title:"Turn an email into a meeting", daily:"Copying names and context from a thread into a meeting invite by hand.",
+     steps:["Open the thread","Use Schedule with Copilot","Check the agenda it writes from the thread"],
+     prompt:"Set up a 30-minute meeting next week with the people on this thread to agree next steps, and write the agenda from this thread.", go:["L2"]}
+  ]},
+  {id:"teams", name:"Teams", icon:"meeting", mins:3, tag:"Meetings and chats that remember what was decided.", demos:[
+    {title:"Recap a meeting you attended or missed", daily:"Actions from S&OP, SNOP and weekly reviews written up by hand, or not at all.",
+     steps:["Open the recording of this session's first hour","Open Recap: notes, actions and mentions","Ask Copilot for the action table"],
+     prompt:"Summarise this meeting: decisions made, every action with owner and due date as a table, and anything carried over from last time.", go:["E3","O6"]},
+    {title:"Ask during a live meeting", daily:"Joining late, or losing track of what was agreed half-way through.",
+     steps:["Open Copilot during the meeting","Ask what has been decided so far","Ask what questions are still open"],
+     prompt:"What have we decided so far? What questions are still open, and who has an action?", go:["E3","L2"]},
+    {title:"Catch up on a busy chat", daily:"Scrolling hundreds of chat messages after a day at the plant or on leave.",
+     steps:["Open a busy group chat","Ask Copilot to summarise the last 7 days"],
+     prompt:"Summarise this chat from the last 7 days: decisions, open questions and anything addressed to me.", go:["E1"]}
+  ]},
+  {id:"word", name:"Word", icon:"doc", mins:3, tag:"SOPs, letters, policies and long documents.", demos:[
+    {title:"Draft an SOP from rough notes", daily:"Writing SOPs, procedures and policies from a blank page.",
+     steps:["Open a blank document and click Draft with Copilot","Reference your notes file with /","Ask for the structure you need","Edit, then ask Copilot to tighten it"],
+     prompt:"Using /[notes file], draft a standard operating procedure for [process]: purpose, scope, roles, numbered steps, controls, and a document control table.", go:["O5","H2"]},
+    {title:"Rewrite a formal letter", daily:"Letters to the tax authority, banks and insurers revised for tone again and again.",
+     steps:["Select the letter text","Choose Rewrite and pick a formal tone","Ask it to keep every figure unchanged"],
+     prompt:"Rewrite this letter to be formal, legally cautious and under one page. Keep all facts, dates and figures exactly as they are.", go:["F4"]},
+    {title:"Summarise a long document", daily:"Reading due-diligence lists, contracts and audit reports cover to cover.",
+     steps:["Open the long document","Ask for a summary with every deadline","Ask what needs Finance or Legal"],
+     prompt:"Summarise this document in 10 bullets, list every deadline and obligation, and flag anything that needs Finance or Legal attention.", go:["L1","F2"]}
+  ]},
+  {id:"excel", name:"Excel", icon:"excel", mins:5, tag:"Recons, MRP, cost per MT, activations, ageing and headcount: the biggest time saver.", demos:[
+    {title:"Ask your data in plain English", daily:"Building pivots and charts by hand to answer one question from management.",
+     steps:["Format the data as a table (Ctrl + T)","Save it to OneDrive or SharePoint","Open Copilot in Excel and ask the question","Add the chart it suggests to a new sheet"],
+     prompt:"Which [plant / region / buyer] had the highest [cost / sales / delay] last month, and how does it compare with the month before? Show it as a chart.", go:["M1","O2","H1"]},
+    {title:"Write the formula for me", daily:"Building lookups between payroll, returns and statements cell by cell.",
+     steps:["Open the statutory recon sample","Ask Copilot for the lookup column","Show the formula it wrote, so people can check it"],
+     prompt:"Add a column that looks up each employee's PAYE from the Returns sheet and shows the difference from payroll. Highlight any difference over 100.", go:["F1"]},
+    {title:"Highlight what matters", daily:"Colouring overdue rows by hand before a review meeting.",
+     steps:["Open the pending list or AR ageing sample","Ask for the highlighting rule","Change a date to show it updates live"],
+     prompt:"Highlight overdue items in red and anything due in the next 7 days in amber. Then sort by days overdue.", go:["O1","M3"]},
+    {title:"Big SAP extracts with Analyst", daily:"Cleaning and analysing large SAP exports before every MRP or RCA review.",
+     steps:["Choose the Analyst agent","Upload the SAP extract","Ask for the top exceptions with a chart","Ask it to explain them in plain English"],
+     prompt:"Analyse this SAP extract: clean it, find the top 10 exceptions, explain each in plain English, and give me one chart for management.", go:["O2","F2"]}
+  ]},
+  {id:"powerpoint", name:"PowerPoint", icon:"slides", mins:3, tag:"CEO packs, RCA decks and board snapshots without starting from a blank slide.", demos:[
+    {title:"A deck from a Word or Excel file", daily:"Turning analysis into slides for the CEO or the board, through many versions.",
+     steps:["Open PowerPoint and choose Create with Copilot","Reference the file you made in Word","Review the slides it drafts","Ask for one change: \"Make slide 3 a chart\""],
+     prompt:"Create a 6-slide presentation from /[file]: the situation, key numbers, root causes, options, recommendation and next steps.", go:["L1","M1"]},
+    {title:"Summarise a deck you received", daily:"Reading supplier, investor or agency decks before a meeting.",
+     steps:["Open the deck","Ask for the main message and the ask"],
+     prompt:"Summarise this presentation: the main message, key numbers, and the decisions it asks us to make.", go:["L2"]},
+    {title:"Add a comparison slide", daily:"Copying vendor comparisons from Excel into slides by hand.",
+     steps:["Open an existing deck","Ask for a new comparison slide"],
+     prompt:"Add a slide that compares the three vendor options in a table: price, delivery, risk, and our recommendation.", go:["O4"]}
+  ]},
+  {id:"notebooks", name:"Notebooks and Pages", icon:"notebook", mins:2, tag:"One place per big piece of work: due diligence, awards, projects.", demos:[
+    {title:"One notebook per big piece of work", daily:"Due-diligence answers, award entries and project files scattered across folders and inboxes.",
+     steps:["Create a Copilot Notebook","Add the files and emails for one piece of work","Ask a question that needs several files","Show it names the file each fact came from"],
+     prompt:"Using only the files in this notebook, answer: [question]. Name the file each fact came from and flag anything that's missing.", go:["M5","O8","L1"]},
+    {title:"Turn an answer into a shared page", daily:"Copying Copilot answers into emails, then losing track of who does what.",
+     steps:["Get an answer in Copilot Chat","Open it in a Page","Share it with the team and edit together"],
+     prompt:"Turn this into a shared action list with owner, due date and status, and add a short summary at the top.", go:["F5","O8","O6"]}
+  ]},
+  {id:"agents", name:"Agents", icon:"agent", mins:2, tag:"Your team's knowledge, available to everyone. Gaurav's May request in action.", demos:[
+    {title:"Build an agent in 5 minutes", daily:"Answering the same SOP, policy and brand questions one email at a time.",
+     steps:["In Copilot Chat, choose Create agent","Describe it in one sentence","Add 2–3 documents from SharePoint","Test with a tricky question, then share it"],
+     prompt:"Create an agent that answers questions about [our HR policy / supply chain SOPs / brand guidelines] using only the attached documents, in plain English, and always names the section it used.", go:["H2","O5","M2","F4"]},
+    {title:"See where agents go next", daily:"Requests that cross functions get lost in email.",
+     steps:["Open the Organisation page","Walk through the control tower flow","Ask leadership which flow to pilot first"],
+     prompt:"From the request register, produce an executive exception brief: overdue stages, incomplete submissions, blocked decisions and the next action by function.", go:["ORG1","ORG2","ORG3"]}
+  ]}
+];
+const findItem=code=>allItems().find(s=>s.code===code);
+const demoWho=d=>[...new Set(d.go.flatMap(c=>findItem(c)?.who||[]))];
+
+function demoCard(d,app){
+  const who=demoWho(d);
+  return `<article class="sc">
+    <div class="sc-top"><div class="ihead">${icon(app.icon)}<h3>${d.title}</h3></div><span class="badges"><span class="tool">${app.name}</span></span></div>
+    <div class="ba"><div class="before"><b>What you do daily</b>${d.daily}</div><div class="after"><b>Demo it like this</b><ol class="steps">${d.steps.map(s=>`<li>${s}</li>`).join("")}</ol></div></div>
+    <div class="prompt">${esc(d.prompt)}</div>
+    <div class="sc-foot"><button type="button" class="copy" data-p="${esc(d.prompt)}">Copy prompt</button><span class="saved">Who does this daily: ${who.length===ALL.length?"everyone":who.length+" people"}</span></div>
+    <div class="next"><span class="muted">Then go to their own use cases:</span>
+      ${d.go.map(c=>{const s=findItem(c); if(!s) return ""; const tgt=s.level==="Organisation"?"org":(s.dept==="everyone"?"people":"d-"+s.dept);
+        return `<button type="button" class="nx" data-go="${tgt}">${c} · ${s.title}</button>`}).join("")}</div>
+    ${whoTags(who)}
+  </article>`;
+}
+
+function vDemo(tab){
+  const app=APPS.find(a=>a.id===tab);
+  const tabs=`<div class="tabs" role="tablist"><button type="button" role="tab" aria-selected="${!app}" data-go="demo">Recap run</button>${APPS.map(a=>`<button type="button" role="tab" aria-selected="${app&&app.id===a.id}" data-go="demo--${a.id}">${a.name}</button>`).join("")}</div>`;
+  const head=`${crumbs([{label:"Home",go:"home"},{label:"Demo Lab",go:app?"demo":null},...(app?[{label:app.name}]:[])])}
+  <div class="vh"><div class="l"><div class="ihead">${icon(app?app.icon:"bolt","lg")}<div class="eyebrow">Demo Lab · everyday Copilot</div></div>
+    <h1>${app?app.name:"What everyone does every day"}</h1>
+    <p class="lead muted">${app?app.tag:"Before we go to personal use cases, we recap the daily work all 14 of you share, app by app. Sahan demos each one live with 260 Brands examples; you follow along on your own screen."}</p></div>
+    ${openLink(app?"demo--"+app.id:"demo")}</div>${tabs}`;
+  if(app){
+    return `${head}<section style="margin-top:22px"><div class="cards">${app.demos.map(d=>demoCard(d,app)).join("")}</div></section>
+    <section><div class="start"><b>Next: ${APPS[(APPS.indexOf(app)+1)%APPS.length].name}</b><p>Or jump to personal pages once the recap is done.</p>
+      <div class="sc-foot" style="justify-content:flex-start"><button type="button" class="copy" data-go="demo--${APPS[(APPS.indexOf(app)+1)%APPS.length].id}">Next app →</button><button type="button" class="copy" data-go="people">Go to personal pages</button></div></div></section>`;
+  }
+  const total=APPS.reduce((n,a)=>n+a.mins,0);
+  return `${head}
+  <section style="margin-top:22px"><div class="sec-head"><h2 style="font-size:20px">The recap run · ${total} minutes</h2><p class="muted">One app at a time, in this order. Each app shows the daily task, a click-by-click demo and the prompt. Then we jump to everyone's own use cases.</p></div>
+    <div class="agenda">${APPS.map((a,i)=>`<button type="button" class="act runrow" data-go="demo--${a.id}"><span class="t">Step ${i+1} · ${a.mins} min</span><div class="ihead">${icon(a.icon,"sm")}<div><b>${a.name}</b><p>${a.tag}</p></div></div><span class="tag">${a.demos.length} demos →</span></button>`).join("")}
+      <button type="button" class="act runrow" data-go="people"><span class="t">Then</span><div class="ihead">${icon("team","sm")}<div><b>Everyone's own use cases</b><p>Each person opens their personal page and tries their "Start here".</p></div></div><span class="tag">14 pages →</span></button>
+    </div></section>
+  <section><div class="sec-head"><h2 style="font-size:20px">Daily tasks, all in one view</h2><p class="muted">Every daily task we found across the 14 participants, grouped by the app that fixes it.</p></div>
+    <div class="tiles">${APPS.map(a=>`<button type="button" class="tile" data-go="demo--${a.id}">${icon(a.icon,"lg")}<span class="nm">${a.name}</span><span class="rl">${a.demos.map(d=>d.title).join(" · ")}</span><span class="ct">${[...new Set(a.demos.flatMap(demoWho))].length} people use this daily →</span></button>`).join("")}</div></section>
+  <section><div class="sec-head"><h2 style="font-size:20px">Prepare before the demo</h2></div>
+    <div class="rules">
+      <div class="rule">${icon("excel")}<b>Sample Excel files</b>Statutory recon, MRP extract, activation tracker and AR ageing. Formatted as tables and saved to OneDrive.</div>
+      <div class="rule">${icon("doc")}<b>One long document</b>A due-diligence list or contract, plus a notes file for the SOP demo.</div>
+      <div class="rule">${icon("meeting")}<b>A recorded meeting</b>Record the session's first hour so the Teams recap has something real to summarise.</div>
+      <div class="rule">${icon("agent")}<b>2–3 documents per agent</b>An SOP, a policy or brand guide in SharePoint, ready to attach.</div>
+    </div></section>`;
+}
+
+/* ---------- views ---------- */
+function vHome(){
+  return `
+  <div class="hero">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="eyebrow">260 Brands × Microsoft 365 Copilot · 22 Oct 2026</div>
+      <h1>Your work, minus the chasing.</h1>
+      <p class="lead">A hands-on playbook built from how 260 Brands works today. We follow one everyday request through the business, find where time gets lost, and fix each step live with Copilot.</p>
+      <div class="meta"><span class="pill">2 hours · hands-on</span><span class="pill">Follow-up to the May session</span></div>
+    </div>
+    <div class="hero-side">${mascot()}
+    <div class="facil"><span class="eyebrow" style="color:var(--muted)">Your trainer</span><b>Sahan Indunil</b><span>AI Solutions Engineer, Trident Corporation</span>
+      <span class="muted" style="font-size:13px">Microsoft Certified Engineer · Microsoft Agentic AI Business Solutions Architect · Microsoft Trainer</span></div></div>
+  </div>
+  <div class="stat-row">
+    <div class="stat"><div class="n">14</div><div class="l">people, 6 functions</div></div>
+    <div class="stat"><div class="n">${SC.length+ORG.length}</div><div class="l">scenarios in this playbook</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">organisation-level builds</div></div>
+    <div class="stat"><div class="n">30+ hrs</div><div class="l">a week recoverable across five roles (estimate)</div></div>
+  </div>
+
+  <section>
+    <div class="sec-head"><div class="eyebrow">Go to your page</div><h2>Pick a view</h2><p class="muted">Every view has its own link. Use "Open in new tab" on any page to keep it beside the Teams call.</p></div>
+    <div class="tiles">
+      <button type="button" class="tile org" data-go="demo">${icon("bolt")}<span class="nm">Demo Lab</span><span class="rl">Everyday Copilot, app by app: Chat, Outlook, Teams, Word, Excel, PowerPoint, Notebooks, Agents</span><span class="ct">Start the recap →</span></button>
+      <button type="button" class="tile org" data-go="org">${icon("org")}<span class="nm">Organisation</span><span class="rl">Company-wide builds for the leadership decision</span><span class="ct">${ORG.length} builds →</span></button>
+      ${DEPTS.map(d=>`<button type="button" class="tile" data-go="d-${d.id}">${icon(DEPT_ICON[d.id])}<span class="nm">${d.short}</span><span class="rl">${d.blurb}</span><span class="ct">${SC.filter(s=>s.dept===d.id).length} scenarios →</span></button>`).join("")}
+    </div>
+    <div class="tiles" style="margin-top:12px">
+      ${PEOPLE.map(p=>`<button type="button" class="tile" data-go="p-${p.id}"><span class="avatar">${initials(p.name)}</span><span class="nm">${p.short}</span><span class="rl">${p.role}</span><span class="ct">${forPerson(p.id).length} use cases →</span></button>`).join("")}
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><div class="eyebrow">The common story</div><h2>One request, eight hand-offs</h2>
+      <p class="muted">A machine breaks at a plant. Watch the request travel through 260 Brands. Every step is someone in this room, and every step has the same enemies: email chasing, Excel rebuilding, and lost meeting actions.</p></div>
+    <div class="journey"><ol>
+      ${[["Breakdown at the plant","An urgent spares request lands in a long email thread.","Mohit · Buumba"],
+         ["Purchase request","It sits among hundreds of unread approval emails.","Musonda"],
+         ["Supplier quotes","Quotes chased for days; comparisons rebuilt by hand.","Musonda · Mohit"],
+         ["Approval","Heads are CC'd on threads where others chase each other.","Buumba · Amit · Rupen"],
+         ["Shipment and receipt","Status hides in agent emails; the pending list is resent for weeks.","Musonda · Buumba"],
+         ["Invoice and payment","Invoices wait for missing receipts; payments get escalated.","Ajay · Amit"],
+         ["Month-end and returns","Recons rebuilt every cycle from separate files.","Ajay · Amit · Francis"],
+         ["CEO pack","Evidence pulled from many files; many versions in one day.","Buumba · Tulasi · Gaurav"]]
+        .map(s=>`<li><div class="dot"></div><div class="card"><h3>${s[0]}</h3><p class="pain">${s[1]}</p><span class="who">${s[2]}</span></div></li>`).join("")}
+    </ol></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><div class="eyebrow">Copilot in plain words</div><h2>Three things to remember</h2></div>
+    <div class="three">
+      <div class="idea">${icon("search","lg")}<span class="big">It already knows your work</span><p>Copilot can read your emails, files, chats and meetings. Only what you already have access to. Nothing more.</p></div>
+      <div class="idea">${icon("chat","lg")}<span class="big">Ask like you'd ask a colleague</span><p>No commands to learn. Plain English, with enough detail that a new hire could do the job.</p></div>
+      <div class="idea">${icon("shield","lg")}<span class="big">You stay the decision-maker</span><p>Copilot drafts, sorts and summarises. You check the numbers and press send.</p></div>
+    </div>
+    <div class="formula">
+      <div><b>Goal</b><span>What do you want?</span></div><div><b>Context</b><span>Why, and for whom?</span></div>
+      <div><b>Source</b><span>Which emails, files or meetings?</span></div><div><b>Expectation</b><span>What should the answer look like?</span></div>
+      <div class="ex">List purchase approvals waiting on me <span class="muted">(goal)</span> so I can clear them before the 9am review <span class="muted">(context)</span>, from my emails of the last 48 hours <span class="muted">(source)</span>, as a table with requester, item and urgency <span class="muted">(expectation)</span>.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><div class="eyebrow">Today's 120 minutes</div><h2>Every block: see it, try it, show it</h2>
+      <p class="muted">Sahan demos for 3 minutes. You try it on your own inbox or file for 8. One person shares their screen. Stuck? Type 🙋 in the chat and your buddy helps.</p></div>
+    <div class="agenda">
+      <div class="act"><span class="t">0:00–0:10</span><div><b>Since May: what your data shows</b><p>The shared story and the prompt formula. We start recording now.</p></div><span class="tag">Everyone</span></div>
+      <div class="act"><span class="t">0:10–0:28</span><div><b>Clear the inbox</b><p>Find what needs your decision, reply in the thread, save it as a morning routine.</p></div><span class="tag">E1 · E2</span></div>
+      <div class="act"><span class="t">0:28–0:40</span><div><b>Stop chasing</b><p>Find unanswered requests and build a pending list from your own emails.</p></div><span class="tag">O1 · O3 · M3</span></div>
+      <div class="act"><span class="t">0:40–1:05</span><div><b>Excel without the rebuild</b><p>Four tables, same three prompts: understand, find exceptions, write the commentary.</p></div><span class="tag">F1 · O2 · H1 · M1</span></div>
+      <div class="act brk"><span class="t">1:05–1:10</span><div><b>Break</b></div><span></span></div>
+      <div class="act"><span class="t">1:10–1:25</span><div><b>Meetings that remember</b><p>Recap the first hour of this session, then turn your Excel result into a one-page CEO brief.</p></div><span class="tag">E3 · L1</span></div>
+      <div class="act"><span class="t">1:25–1:43</span><div><b>Build your team's agent</b><p>Each table builds one agent from 2–3 of its own documents, then tests it.</p></div><span class="tag">F4 · H2 · O5 · M2</span></div>
+      <div class="act"><span class="t">1:43–1:53</span><div><b>The big one</b><p>Map where requests get stuck and pick one organisation-level pilot.</p></div><span class="tag">ORG1–4</span></div>
+      <div class="act"><span class="t">1:53–2:00</span><div><b>Your commitment</b><p>On your personal page, under "My 30 days".</p></div><span class="tag">Everyone</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><div class="eyebrow">Safe use</div><h2>Four house rules</h2></div>
+    <div class="rules">
+      <div class="rule"><b>Check every number</b>Copilot is a fast first draft. Finance figures get a human check.</div>
+      <div class="rule"><b>It sees what you see</b>If a file is shared too widely, Copilot will find it. Tell IT.</div>
+      <div class="rule"><b>No passwords, ever</b>Don't paste passwords, bank details or ID numbers into prompts.</div>
+      <div class="rule"><b>You press send</b>Copilot never sends, approves or posts on its own.</div>
+    </div>
+  </section>`;
+}
+
+function vOrg(){
+  return `${crumbs([{label:"Home",go:"home"},{label:"Organisation"}])}
+  <div class="vh"><div class="l"><div class="ihead">${icon("org","lg")}<div class="eyebrow">Organisation level</div></div><h1>Company-wide builds</h1>
+    <p class="lead muted">Five of the six Copilot dashboards pointed to the same thing under different names: requests that cross functions get lost in email. These four builds answer Gaurav's May request for agents matched to each function, joined up into one system.</p></div>
+    ${openLink("org")}</div>
+  <div class="kv" style="margin-top:20px">
+    <div><div class="n">${ORG.length}</div><div class="l">organisation-level builds</div></div>
+    <div><div class="n">1</div><div class="l">pilot to choose today</div></div>
+    <div><div class="n">30 days</div><div class="l">to prove it on one flow</div></div>
+  </div>
+  <section><div class="cards">${ORG.map(o=>card({...o,level:"Organisation"})).join("")}</div></section>
+  <section><div class="start"><b>Decision for today</b><p>Pick one pilot flow (spares requests, budget inputs, new-product launches or credit notes), one business owner and one IT owner. Everything else waits until that pilot proves the time saved.</p></div></section>`;
+}
+
+function vDepartments(){
+  return `${crumbs([{label:"Home",go:"home"},{label:"Departments"}])}
+  <div class="vh"><div class="l"><div class="eyebrow">Department pages</div><h1>Pick your department</h1></div>${openLink("departments")}</div>
+  <section style="margin-top:20px"><div class="tiles">
+    ${DEPTS.map(d=>`<button type="button" class="tile" data-go="d-${d.id}">${icon(DEPT_ICON[d.id],"lg")}<span class="nm">${d.name}</span><span class="rl">${d.blurb}</span><span class="ct">${PEOPLE.filter(p=>p.dept===d.id).map(p=>p.short).join(" · ")}</span></button>`).join("")}
+  </div></section>`;
+}
+
+function vDept(id){
+  const d=dept(id); if(!d) return vHome();
+  const members=PEOPLE.filter(p=>p.dept===id);
+  const items=SC.filter(s=>s.dept===id);
+  const orgs=ORG.filter(o=>o.who.some(w=>members.some(m=>m.id===w))).map(o=>({...o,level:"Organisation"}));
+  return `${crumbs([{label:"Home",go:"home"},{label:"Departments",go:"departments"},{label:d.short}])}
+  <div class="vh"><div class="l"><div class="ihead">${icon(DEPT_ICON[id],"lg")}<div class="eyebrow">Department</div></div><h1>${d.name}</h1><p class="lead muted">${d.blurb}</p></div>${openLink("d-"+id)}</div>
+  <section style="margin-top:22px"><div class="two">
+    <div><h3 style="margin-bottom:10px">Where time gets lost today</h3><ul class="friction">${d.frictions.map(f=>`<li>${f}</li>`).join("")}</ul></div>
+    <div><h3 style="margin-bottom:10px">People in this department</h3><div class="tiles">${members.map(p=>`<button type="button" class="tile" data-go="p-${p.id}"><span class="avatar">${initials(p.name)}</span><span class="nm">${p.short}</span><span class="rl">${p.role}</span><span class="ct">Open personal page →</span></button>`).join("")}</div></div>
+  </div></section>
+  <section>${grouped(items.concat(orgs))}</section>
+  <section><div class="group-h"><h2 style="font-size:20px">Plus the three everyday habits</h2><span class="muted">Everyone starts here</span></div><div class="cards">${SC.filter(s=>s.dept==="everyone").map(card).join("")}</div></section>`;
+}
+
+function vPeople(){
+  return `${crumbs([{label:"Home",go:"home"},{label:"People"}])}
+  <div class="vh"><div class="l"><div class="eyebrow">Personal pages</div><h1>Find your name</h1><p class="lead muted">Your page has four parts: an overview, your use cases by level, your prompts in one place, and your 30-day plan.</p></div>${openLink("people")}</div>
+  <section style="margin-top:20px"><div class="tiles">${PEOPLE.map(p=>`<button type="button" class="tile" data-go="p-${p.id}"><span class="avatar">${initials(p.name)}</span><span class="nm">${p.name}</span><span class="rl">${p.role}</span><span class="ct">${forPerson(p.id).length} use cases →</span></button>`).join("")}</div></section>`;
+}
+
+const TABS=[["overview","Overview"],["usecases","My use cases"],["prompts","My prompts"],["plan","My 30 days"]];
+function vPerson(id,tab){
+  const p=person(id); if(!p) return vPeople();
+  tab=TABS.some(t=>t[0]===tab)?tab:"overview";
+  const items=forPerson(id);
+  const start=items.find(s=>s.code===p.start)||items[0];
+  const counts=["User","Department","Organisation"].map(l=>items.filter(s=>(s.level||"User")===l).length);
+  const d=dept(p.dept);
+  let body="";
+  if(tab==="overview"){
+    body=`<section style="margin-top:22px"><div class="kv">
+      <div><div class="n">${counts[0]}</div><div class="l">personal use cases</div></div>
+      <div><div class="n">${counts[1]}</div><div class="l">department use cases</div></div>
+      <div><div class="n">${counts[2]}</div><div class="l">organisation builds you're part of</div></div></div></section>
+    <section><div class="two">
+      <div><h3 style="margin-bottom:10px">What slows you down today</h3><ul class="friction">${p.frictions.map(f=>`<li>${f}</li>`).join("")}</ul></div>
+      <div class="start"><span class="eyebrow">Start here</span><b>${start.code} · ${start.title}</b><p>${start.after}</p>
+        <div class="prompt">${esc(start.prompt)}</div><div class="sc-foot"><button type="button" class="copy" data-p="${esc(start.prompt)}">Copy prompt</button><span class="saved">≈ ${start.save}</span></div></div>
+    </div></section>`;
+  } else if(tab==="usecases"){
+    body=`<section style="margin-top:6px">${grouped(items)}</section>`;
+  } else if(tab==="prompts"){
+    body=`<section style="margin-top:22px"><div class="sec-head"><h2 style="font-size:20px">All your prompts in one place</h2><p class="muted">Copy, paste into Copilot, and change the words in [brackets].</p></div>
+      <div class="plist">${items.map(s=>`<div class="prow"><div class="hd"><span class="ihead">${icon((s.level==="Organisation")?"org":toolIcon(s.tool),"sm")}<b>${s.code} · ${s.title}</b></span><span class="badges"><span class="lvl ${s.level||"User"}">${s.level||"User"}</span><span class="tool">${s.tool.split(" + ")[0]}</span></span></div>
+        <div class="prompt">${esc(s.prompt)}</div><div class="sc-foot"><button type="button" class="copy" data-p="${esc(s.prompt)}">Copy prompt</button><span class="saved">≈ ${s.save}</span></div></div>`).join("")}</div></section>`;
+  } else {
+    const dl=items.find(s=>s.level==="Department");
+    const og=items.find(s=>s.level==="Organisation");
+    const weeks=[
+      ["Week 1","Build the morning habit",SC[0]],
+      ["Week 2","Use your start-here every time",start],
+      ["Week 3","Share it with your team",dl||SC[2]],
+      ["Week 4","Join the pilot",og||SC[1]]
+    ];
+    body=`<section style="margin-top:22px"><div class="weeks">${weeks.map(w=>`<div class="week"><span class="wk">${w[0]}</span><b>${w[1]}</b><p style="font-size:13.5px">${w[2].code} · ${w[2].title}</p><button type="button" data-copy="${esc(w[2].prompt)}">Copy prompt</button></div>`).join("")}</div>
+      <form class="commit" id="commitForm">
+        <label for="c-fix">The use case I'll use every week<select id="c-fix">${items.map(s=>`<option value="${s.code}" ${s.code===start.code?"selected":""}>${s.code} · ${s.title}</option>`).join("")}</select></label>
+        <label for="c-metric">How I'll measure it<input id="c-metric" type="text" value="Minutes saved per week"></label>
+        <div class="out"><span id="c-out"></span><button type="button" class="copy" id="c-copy">Copy for the chat</button></div>
+      </form></section>`;
+  }
+  return `${crumbs([{label:"Home",go:"home"},{label:"People",go:"people"},{label:p.short}])}
+  <div class="vh"><div class="l"><div class="ph"><span class="avatar">${initials(p.name)}</span><div><h1 style="font-size:clamp(26px,4vw,38px)">${p.name}</h1><p class="muted">${p.role} · <button type="button" class="tags" style="all:unset;color:var(--ms);font-weight:700;cursor:pointer" data-go="d-${d.id}">${d.short}</button></p></div></div></div>
+    ${openLink("p-"+id+(tab==="overview"?"":"--"+tab))}</div>
+  <div class="tabs" role="tablist">${TABS.map(t=>`<button type="button" role="tab" aria-selected="${t[0]===tab}" data-go="p-${id}--${t[0]}">${t[1]}</button>`).join("")}</div>
+  ${body}`;
+}
+
+/* ---------- router ---------- */
+let current="home";
+function render(token, push){
+  token=token||"home"; current=token;
+  let html, navKey="home";
+  if(token==="home") html=vHome();
+  else if(token==="demo"||token.startsWith("demo--")){html=vDemo(token.split("--")[1]);navKey="demo"}
+  else if(token==="org"){html=vOrg();navKey="org"}
+  else if(token==="departments"){html=vDepartments();navKey="departments"}
+  else if(token==="people"){html=vPeople();navKey="people"}
+  else if(token.startsWith("d-")){html=vDept(token.slice(2));navKey="departments"}
+  else if(token.startsWith("p-")){const [id,tab]=token.slice(2).split("--");html=vPerson(id,tab);navKey="people"}
+  else html=vHome();
+  view.innerHTML=html;
+  document.querySelectorAll(".nav button").forEach(b=>b.setAttribute("aria-current", b.dataset.go===navKey?"true":"false"));
+  if(push){ try{ history.replaceState(null,"","#"+token) }catch(e){} window.scrollTo({top:0}); view.focus({preventScroll:true}); }
+  wire();
+}
+function decorate(){
+  const AG=["calendar","inbox","bolt","excel",null,"meeting","agent","org","target"];
+  if(current==="home"){
+    view.querySelectorAll(".act").forEach((a,i)=>{const c=a.children[1]; if(!AG[i]||!c) return;
+      c.outerHTML=`<div class="ihead">${icon(AG[i],"sm")}<div>${c.innerHTML}</div></div>`;});
+    const RU=["excel","search","lock","shield"];
+    view.querySelectorAll(".rule").forEach((r,i)=>r.insertAdjacentHTML("afterbegin",icon(RU[i]||"bolt")));
+  }
+  /* Soya appears in a random spot on every view */
+  const secs=[...view.querySelectorAll(":scope > section")];
+  if(secs.length){
+    const p=current.startsWith("p-")?person(current.slice(2).split("--")[0]):null;
+    const lines=p?[`${p.short}, your quickest win is on the Overview tab under "Start here".`,`${p.short}, copy one prompt now and try it on your own inbox.`].concat(TIPS):TIPS;
+    const at=secs[Math.floor(Math.random()*secs.length)];
+    at.insertAdjacentHTML(Math.random()<.5?"beforebegin":"afterend",
+      `<div class="soya-card">${mascot()}<div><b>Soya says</b><p>${pick(lines)}</p></div></div>`);
+  }
+}
+function setBuddy(){
+  const p=current.startsWith("p-")?person(current.slice(2).split("--")[0]):null;
+  $("#buddy-tip").textContent = p && Math.random()<.5 ? `Hi ${p.short}! Start with your "Start here" use case today.` : pick(TIPS);
+}
+function wire(){
+  decorate(); setBuddy();
+  view.querySelectorAll(".copy[data-p]").forEach(b=>b.addEventListener("click",()=>copyText(b.dataset.p,b)));
+  view.querySelectorAll("button[data-copy]").forEach(b=>b.addEventListener("click",()=>copyText(b.dataset.copy,b)));
+  view.querySelectorAll(".done input").forEach(i=>i.addEventListener("change",()=>{
+    done[i.dataset.code]=i.checked; try{localStorage.setItem("pb-done",JSON.stringify(done))}catch(e){}
+    document.querySelectorAll(`.done input[data-code="${i.dataset.code}"]`).forEach(x=>x.checked=i.checked);
+  }));
+  const f=$("#commitForm");
+  if(f){
+    const p=person(current.slice(2).split("--")[0]);
+    const out=()=>{const s=allItems().find(x=>x.code===$("#c-fix").value);
+      $("#c-out").textContent=`${p.short}: for 30 days I'll use ${s.code} (${s.title}) and track "${$("#c-metric").value}".`};
+    $("#c-fix").addEventListener("change",out); $("#c-metric").addEventListener("input",out);
+    $("#c-copy").addEventListener("click",()=>copyText($("#c-out").textContent,$("#c-copy")));
+    f.addEventListener("submit",e=>e.preventDefault()); out();
+  }
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-go]"); if(!b) return;
+  e.preventDefault(); render(b.dataset.go,true);
+});
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1); if(h&&h!==current) render(h,false)});
+
+function copyText(t,btn){
+  const ok=()=>{const o=btn.textContent;btn.textContent="Copied";setTimeout(()=>btn.textContent=o,1400)};
+  try{navigator.clipboard.writeText(t).then(ok).catch(()=>fallback(t,btn,ok))}catch(e){fallback(t,btn,ok)}
+}
+function fallback(t,btn,ok){
+  const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();
+  try{document.execCommand("copy");ok()}catch(e){btn.textContent="Select and copy"}
+  ta.remove();
+}
+
+/* logo slots */
+function initLogo(key,inputId,slotId){
+  const slot=$("#"+slotId), input=$("#"+inputId);
+  const show=src=>{slot.classList.add("filled");slot.querySelector(".ph-l").innerHTML=`<img alt="" src="${src}">`};
+  try{const s=localStorage.getItem(key); if(s) show(s)}catch(e){}
+  input.addEventListener("change",()=>{
+    const f=input.files[0]; if(!f) return;
+    const r=new FileReader();
+    r.onload=()=>{show(r.result); try{localStorage.setItem(key,r.result)}catch(e){}};
+    r.readAsDataURL(f);
+  });
+}
+if(SOYA_CHAT_URL){const c=$("#buddy-chat");c.href=SOYA_CHAT_URL;c.hidden=false;}
+$("#buddy-x").addEventListener("click",()=>$("#buddy").classList.add("min"));
+$("#buddy-me").addEventListener("click",()=>{$("#buddy").classList.remove("min");$("#buddy-tip").textContent=pick(TIPS)});
+
+
+render((location.hash||"").slice(1)||"home",false);
+</script>
+
+</body>
+</html>

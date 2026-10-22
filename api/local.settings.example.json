@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "SOYA_PROJECT_ENDPOINT": "https://copilotfoundary.services.ai.azure.com/api/projects/proj-copilot",
+    "SOYA_AGENT_NAME": "soya-260",
+    "MAX_MESSAGES_PER_HOUR": "30",
+    "MAX_INPUT_CHARS": "1500"
+  }
+}
