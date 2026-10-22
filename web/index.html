@@ -225,7 +225,17 @@ footer{margin-top:56px;padding-top:18px;padding-bottom:96px;border-top:1px solid
 .buddy .x{position:absolute;top:4px;right:6px;border:0;background:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1}
 .buddy .me{border:0;background:none;padding:0;cursor:pointer}
 .buddy .me .mascot{width:70px;height:76px;animation:bob 3.4s ease-in-out infinite}
-.buddy.min .bubble{display:none}
+.buddy.min .bubble,.buddy.open .bubble{display:none}
+.soya-panel{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(98px + env(safe-area-inset-bottom,0px));z-index:9;width:min(400px,calc(100vw - 28px));height:min(620px,calc(100dvh - 120px));background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 48px rgba(0,0,0,.24);display:flex;flex-direction:column;overflow:hidden}
+.soya-panel .hd{display:flex;align-items:center;gap:10px;padding:10px 10px 10px 14px;border-bottom:1px solid var(--line);background:linear-gradient(120deg,var(--accent-soft),var(--surface))}
+.soya-panel .hd svg{width:34px;height:37px;flex:none}
+.soya-panel .hd .t{flex:1;display:flex;flex-direction:column;line-height:1.2}
+.soya-panel .hd b{font-family:var(--display);font-size:16px}
+.soya-panel .hd span{font-size:12px;color:var(--muted)}
+.soya-panel .hd a,.soya-panel .hd button{display:grid;place-items:center;width:32px;height:32px;border:0;border-radius:8px;background:none;color:var(--muted);font-size:18px;line-height:1;text-decoration:none;cursor:pointer}
+.soya-panel .hd a:hover,.soya-panel .hd button:hover{background:var(--sunk);color:var(--fg)}
+.soya-panel iframe{flex:1;width:100%;border:0;background:var(--bg)}
+@media (max-width:520px){.soya-panel{left:8px;right:8px;width:auto;bottom:calc(92px + env(safe-area-inset-bottom,0px));height:calc(100dvh - 110px)}}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @media (prefers-reduced-motion:reduce){.mascot{animation:none!important}}
 
@@ -306,6 +316,13 @@ footer{margin-top:56px;padding-top:18px;padding-bottom:96px;border-top:1px solid
   <div class="bubble" role="status"><button type="button" class="x" id="buddy-x" aria-label="Hide tip">×</button><b>Soya says</b><span id="buddy-tip">Start every prompt with the goal.</span><a id="buddy-chat" class="chat-cta" target="_blank" rel="noopener" hidden>Chat with Soya ↗</a></div>
   <button type="button" class="me" id="buddy-me" aria-label="Show another tip from Soya"><svg class="mascot" viewBox="0 0 120 130"><use href="#soya"/></svg></button>
 </div>
+<section class="soya-panel" id="soya-panel" role="dialog" aria-label="Chat with Soya" hidden>
+  <div class="hd"><svg viewBox="0 0 120 130" aria-hidden="true"><use href="#soya"/></svg>
+    <div class="t"><b>Chat with Soya</b><span>Your Microsoft 365 Copilot coach</span></div>
+    <a id="soya-pop" target="_blank" rel="noopener" aria-label="Open chat in a new tab" title="Open in a new tab">↗</a>
+    <button type="button" id="soya-close" aria-label="Close chat" title="Close">×</button></div>
+  <iframe id="soya-frame" title="Chat with Soya"></iframe>
+</section>
 
 <div class="wrap">
   <footer>
@@ -1003,9 +1020,28 @@ function initLogo(key,inputId,slotId){
     r.readAsDataURL(f);
   });
 }
-if(SOYA_CHAT_URL){const c=$("#buddy-chat");c.href=SOYA_CHAT_URL;c.hidden=false;}
+/* Soya chat opens in a panel above the corner mascot; the frame loads on first open. */
+function toggleChat(open){
+  const f=$("#soya-frame");
+  if(open&&!f.src) f.src=SOYA_CHAT_URL+(SOYA_CHAT_URL.includes("?")?"&":"?")+"embed=1";
+  $("#soya-panel").hidden=!open;
+  $("#buddy").classList.toggle("open",open);
+  $("#buddy-me").setAttribute("aria-expanded",String(open));
+  if(open) f.focus(); else $("#buddy-me").focus();
+}
+if(SOYA_CHAT_URL){
+  const c=$("#buddy-chat");c.href=SOYA_CHAT_URL;c.textContent="Chat with Soya";c.removeAttribute("target");c.hidden=false;
+  c.addEventListener("click",e=>{e.preventDefault();toggleChat(true)});
+  $("#soya-pop").href=SOYA_CHAT_URL;
+  $("#soya-close").addEventListener("click",()=>toggleChat(false));
+  $("#buddy-me").setAttribute("aria-label","Chat with Soya");
+  $("#buddy-me").setAttribute("aria-expanded","false");
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#soya-panel").hidden) toggleChat(false)});
+}
 $("#buddy-x").addEventListener("click",()=>$("#buddy").classList.add("min"));
-$("#buddy-me").addEventListener("click",()=>{$("#buddy").classList.remove("min");$("#buddy-tip").textContent=pick(TIPS)});
+$("#buddy-me").addEventListener("click",()=>{
+  if(SOYA_CHAT_URL){toggleChat($("#soya-panel").hidden);return}
+  $("#buddy").classList.remove("min");$("#buddy-tip").textContent=pick(TIPS)});
 
 
 render((location.hash||"").slice(1)||"home",false);
