@@ -103,7 +103,7 @@ textarea:focus,button:focus-visible{outline:2px solid var(--ms);outline-offset:1
 
 <script>
 /* Paste your Function App URL here, e.g. https://soya-260-chat.azurewebsites.net */
-const API_BASE = "https://YOUR-FUNCTION-APP.azurewebsites.net";
+const API_BASE = "https://soya260-chat.azurewebsites.net";
 const log=document.getElementById("log"), scroll=document.getElementById("scroll"), q=document.getElementById("q"), send=document.getElementById("send");
 let conv=null; try{conv=sessionStorage.getItem("soya-conv")}catch(e){}
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));

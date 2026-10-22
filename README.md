@@ -11,7 +11,7 @@ The 260 Brands Microsoft 365 Copilot playbook and **Soya**, its Copilot coach ag
 GitHub Pages only serves static files, so the agent call runs in the Azure Function.
 The Function signs in with its managed identity, so no keys reach the browser.
 
-Live site: `https://sahantrident.github.io/soya260/`
+Live site: `https://sahantrident.github.io/soya260/` · API: `https://soya260-chat.azurewebsites.net/api/chat` (Function App `soya260-chat`, resource group `COPILOT`, Flex Consumption, 512 MB, max 5 instances)
 
 ## 1. Deploy the API (Azure Function App)
 1. Create a Function App: **Python 3.11**, Linux, Flex Consumption plan.
